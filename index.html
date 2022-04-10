@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      span,
+      body {
+        line-height: 1;
+        margin: 0;
+        font-size: 16px;
+        font-weight: 400;
+      }
+
+      div {
+        background: #ccc;
+      }
+
+      div > div {
+        background: green;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Example 1: Parent content, no margin collapsing</h1>
+    <h2>Parent w/ 20px padding, child with 20px margin</h2>
+
+    <div style="padding: 20px">
+      <div style="margin-top: 20px">Margin top 20px</div>
+    </div>
+
+    <h1>Example 2: No content margin collapsing</h1>
+    <h2>Parent w/ 50px margin-top, child with 50px margin top</h2>
+    <h3>Result: 50px top margin</h3>
+    <div style="margin-top: 50px">
+      <div style="margin-top: 50px">No content parent margin collapsing</div>
+    </div>
+
+    <h1>Example 3: Block formatting context (no margin collapsing)</h1>
+    <h2>
+      Parent w/ 100px margin top and child w/ 50px margin top (contained because
+      of BFC)
+    </h2>
+    <h3>Result: Top margin 100px and 50px top-margin within the container</h3>
+    <div style="margin-top: 100px">
+      <div style="display: inline-block; margin-top: 50px">
+        Inline-block element
+      </div>
+    </div>
+
+    <h1>
+      Example 4: 2 block level elements, but want to have inner margin not
+      collapsed
+    </h1>
+    <div style="margin-top: 100px; overflow: hidden">
+      <div style="margin-top: 50px">Try not to collapse</div>
+    </div>
+
+    <h1>Example 5: Parent flex & child block</h1>
+    <div style="margin-top: 100px; display: flex">
+      <div style="margin-top: 50px">Try not to collapse</div>
+    </div>
+
+    <h1>Example 5.1: Parent block & child display: flex</h1>
+    <div style="margin-top: 100px">
+      <div style="margin-top: 50px; display: flex">
+        Why is the margin collapsed when the child is flexed? Does it only
+        prevent margin collapsing on children or adjacent? Why doesn't this
+        repro with inline-block? Ah, flex items have a block formatting context,
+        but not the parent which defines `display: flex`.
+      </div>
+    </div>
+
+    <h1>
+      Example 6: No content, but padding to keep margin collapsing from
+      happening
+    </h1>
+    <div style="margin: 20px">
+      <div style="margin: 20px">Inner div</div>
+    </div>
+  </body>
+</html>
