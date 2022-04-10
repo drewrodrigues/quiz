@@ -25,22 +25,22 @@ const marginCollapsingQuiz = {
       question: "What will be the updated question?",
       subtitle: "Some subtitle goes here",
       codeExample: "",
-      answerOptions: [{ label: "True" }, { label: "False" }],
-      answerIndex: 2,
+      answerOptions: [{ label: "true" }, { label: "false" }],
+      answerIndex: 0,
     },
     {
       question: "What will be the updated question?",
       subtitle: "Some subtitle goes here",
       codeExample: "",
-      answerOptions: [{ label: "True" }, { label: "False" }],
-      answerIndex: 2,
+      answerOptions: [{ label: "true" }, { label: "false" }],
+      answerIndex: 1,
     },
     {
       question: "What will be the updated question?",
       subtitle: "Some subtitle goes here",
       codeExample: "",
-      answerOptions: [{ label: "True" }, { label: "False" }],
-      answerIndex: 2,
+      answerOptions: [{ label: "true" }, { label: "false" }],
+      answerIndex: 1,
     },
   ],
 };
@@ -51,7 +51,7 @@ const anotherQuiz = {
     {
       question: "What will be the result of the following?",
       codeExample: "",
-      answerOptions: [{ label: "True" }, { label: "False" }],
+      answerOptions: [{ label: "true" }, { label: "false" }],
       answerIndex: 2,
     },
   ],
@@ -61,6 +61,7 @@ const quizes = [marginCollapsingQuiz, anotherQuiz];
 
 const globalState = {
   selectedQuiz: quizes[0],
+  results: undefined,
 };
 
 function render() {
@@ -79,7 +80,11 @@ function createElement(elementType, attributes = {}, children = []) {
 
   Object.entries(attributes).forEach((keyValue) => {
     const [key, value] = keyValue;
-    element[key] = value;
+    if (key.startsWith("data")) {
+      element.dataset[key.slice(4).toLowerCase()] = value;
+    } else {
+      element[key] = value;
+    }
   });
 
   children.forEach((child) => {
@@ -106,14 +111,53 @@ function NavLink({ quiz, isActive, id }) {
 }
 
 function Quiz() {
-  const { selectedQuiz } = globalState;
+  const {
+    selectedQuiz: { title, questions },
+  } = globalState;
 
-  return createElement("section", {}, [
-    createElement("h2", { textContent: selectedQuiz.title }),
-    ...selectedQuiz.questions.map((question, id) =>
-      QuizQuestion({ question, id })
-    ),
-  ]);
+  return createElement(
+    "form",
+    {
+      onsubmit: (e) => {
+        e.preventDefault();
+
+        const guessedAnswers = Array.from(e.target.elements).filter(
+          (element) => element.checked
+        );
+        let results = { correct: 0, incorrect: 0 };
+
+        const allQuestionsAnswered = guessedAnswers.length === questions.length;
+
+        if (!allQuestionsAnswered) {
+          alert("Not all questions were answered!");
+          return;
+        }
+
+        questions.forEach((question, i) => {
+          const guessedAnswer = guessedAnswers[i].dataset.label;
+          const actualAnswer =
+            question.answerOptions[question.answerIndex].label;
+
+          console.log({ guessedAnswer, actualAnswer });
+
+          if (guessedAnswer === actualAnswer) {
+            results.correct++;
+          } else {
+            results.incorrect++;
+          }
+        });
+
+        console.log(results);
+      },
+    },
+    [
+      createElement("h2", { textContent: title }),
+      ...questions.map((question, id) => QuizQuestion({ question, id })),
+      createElement("button", {
+        textContent: "Submit",
+      }),
+    ]
+  );
 }
 
 function QuizQuestion({ question, id }) {
@@ -151,6 +195,7 @@ function QuestionAnswers({ answerOptions, id }) {
             type: "radio",
             name: id,
             style: "margin-right: 5px",
+            dataLabel: answerOption.label,
           }),
           createElement("span", { textContent: answerOption.label }),
         ]
