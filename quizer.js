@@ -67,10 +67,11 @@ const globalState = {
 function render() {
   const quizer = document.querySelector("#quizer");
 
-  const root = createElement("main", {}, [
-    Nav(),
-    globalState.selectedQuiz ? Quiz() : undefined,
-  ]);
+  const root = createElement(
+    "main",
+    { style: "border-radius: 10px; border: 1px solid #ccc; padding: 20px;" },
+    [Nav(), globalState.selectedQuiz ? Quiz() : undefined]
+  );
 
   quizer.replaceChildren(root);
 }
@@ -153,7 +154,10 @@ function Quiz() {
       },
     },
     [
-      createElement("h2", { textContent: title }),
+      createElement("h2", {
+        textContent: title,
+        style: "margin-bottom: 40px; font-size: 32px; font-weight: 700",
+      }),
       ...(!globalState.results
         ? questions.map((question, id) => QuizQuestion({ question, id }))
         : questions.map((question, id) => QuizResult({ question, id }))),
@@ -204,13 +208,23 @@ function QuizResult({ question, id }) {
   const isIncorrect =
     globalState.results && globalState.results.incorrectIndices.has(id);
 
+  const commonStyle = `
+    margin-left: -20px;
+    margin-right: -20px;
+    padding: 20px;
+  `;
+
   return createElement(
     "div",
     {
       style: [
         "margin-bottom: 20px",
-        isCorrect ? "background: green" : "",
-        isIncorrect ? "background: red" : "",
+        isCorrect
+          ? `border-right: 10px solid lightgreen; background: rgba(0,255,0,0.2);${commonStyle}`
+          : "",
+        isIncorrect
+          ? `border-right: 10px solid orangered; background: rgba(255,0,0,0.2);${commonStyle}`
+          : "",
       ].join(";"),
     },
     [
