@@ -124,7 +124,10 @@ function Quiz() {
         const guessedAnswers = Array.from(e.target.elements).filter(
           (element) => element.checked
         );
-        let results = { correct: 0, incorrect: 0 };
+        let results = {
+          correctIndices: new Set(),
+          incorrectIndices: new Set(),
+        };
 
         const allQuestionsAnswered = guessedAnswers.length === questions.length;
 
@@ -138,46 +141,95 @@ function Quiz() {
           const actualAnswer =
             question.answerOptions[question.answerIndex].label;
 
-          console.log({ guessedAnswer, actualAnswer });
-
           if (guessedAnswer === actualAnswer) {
-            results.correct++;
+            results.correctIndices.add(i);
           } else {
-            results.incorrect++;
+            results.incorrectIndices.add(i);
           }
         });
 
-        console.log(results);
+        globalState.results = results;
+        render();
       },
     },
     [
       createElement("h2", { textContent: title }),
-      ...questions.map((question, id) => QuizQuestion({ question, id })),
-      createElement("button", {
-        textContent: "Submit",
-      }),
+      ...(!globalState.results
+        ? questions.map((question, id) => QuizQuestion({ question, id }))
+        : questions.map((question, id) => QuizResult({ question, id }))),
+      !globalState.results
+        ? createElement("button", {
+            textContent: "Submit",
+          })
+        : createElement("button", {
+            textContent: "Retry",
+            onclick: () => {
+              globalState.results = undefined;
+              render();
+            },
+          }),
     ]
   );
 }
 
 function QuizQuestion({ question, id }) {
-  return createElement("div", { style: "margin-bottom: 20px" }, [
-    createElement("header", { style: "margin-bottom: 5px" }, [
-      createElement("h2", {
-        textContent: question.question,
-        style: "font-weight: 700",
-      }),
-      question.subtitle &&
-        createElement("p", {
-          textContent: question.subtitle,
-          style: "font-size: 14px",
+  return createElement(
+    "div",
+    {
+      style: "margin-bottom: 20px",
+    },
+    [
+      createElement("header", { style: "margin-bottom: 5px" }, [
+        createElement("h2", {
+          textContent: question.question,
+          style: "font-weight: 700",
         }),
-    ]),
-    QuestionAnswers({
-      answerOptions: question.answerOptions,
-      id,
-    }),
-  ]);
+        question.subtitle &&
+          createElement("p", {
+            textContent: question.subtitle,
+            style: "font-size: 14px",
+          }),
+      ]),
+      QuestionAnswers({
+        answerOptions: question.answerOptions,
+        id,
+      }),
+    ]
+  );
+}
+
+function QuizResult({ question, id }) {
+  const isCorrect =
+    globalState.results && globalState.results.correctIndices.has(id);
+  const isIncorrect =
+    globalState.results && globalState.results.incorrectIndices.has(id);
+
+  return createElement(
+    "div",
+    {
+      style: [
+        "margin-bottom: 20px",
+        isCorrect ? "background: green" : "",
+        isIncorrect ? "background: red" : "",
+      ].join(";"),
+    },
+    [
+      createElement("header", { style: "margin-bottom: 5px" }, [
+        createElement("h2", {
+          textContent: question.question,
+          style: "font-weight: 700",
+        }),
+        question.subtitle &&
+          createElement("p", {
+            textContent: question.subtitle,
+            style: "font-size: 14px",
+          }),
+      ]),
+      createElement("p", {
+        textContent: question.answerOptions[question.answerIndex].label,
+      }),
+    ]
+  );
 }
 
 function QuestionAnswers({ answerOptions, id }) {
