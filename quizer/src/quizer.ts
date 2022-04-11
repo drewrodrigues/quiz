@@ -58,6 +58,55 @@ export function Quizer() {
   }
 
   function ParsingFailed() {
+    const quizExample = [
+      "Margin Collapsing",
+      [
+        "When is a block formatting context created?",
+        "overflow: hidden",
+        "position: absolute",
+        "display: inline-block",
+        "float: left",
+      ],
+      [
+        "When is a block formatting context created?",
+        "display: inline-block",
+        "position: absolute",
+        "overflow: hidden",
+        "float: left",
+      ],
+      [
+        "When is a block formatting context created?",
+        "float: left",
+        "overflow: hidden",
+        "position: absolute",
+        "display: inline-block",
+      ],
+      [
+        "When is a block formatting context created?",
+        "position: absolute",
+        "overflow: hidden",
+        "float: left",
+        "display: inline-block",
+      ],
+      [
+        "When is a block formatting context created?",
+        "overflow: hidden",
+        "position: absolute",
+        "display: inline-block",
+        "float: left",
+      ],
+      [
+        "When is a block formatting context created?",
+        "overflow: hidden",
+        "position: absolute",
+        "display: inline-block",
+        "float: left",
+      ],
+    ];
+    const quizString = `${JSON.stringify(quizExample)}`;
+    const quizLink = encodeURIComponent(quizString);
+    const exampleUrl = `?${quizLink}`;
+
     return createElement(
       "main",
       {
@@ -67,19 +116,20 @@ export function Quizer() {
       [
         createElement("p", {
           style: "font-weight: 700; font-size: 24px;",
-          textContent: "Oh Noes",
+          textContent: "It's a distastah",
         }),
         createElement("p", {
           textContent: "Failed to parse quiz",
-          style: "margin-bottom: 20px;",
+          style: "margin-bottom: 40px;",
         }),
         createElement("footer", { style: "display: flex" }, [
-          createElement("button", {
+          createElement("a", {
             textContent: "Try an example",
+            href: exampleUrl,
             style:
               "background: #ddd; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px; margin-right: 10px",
           }),
-          createElement("button", {
+          createElement("a", {
             textContent: "Create a Quiz",
             style:
               "background: #ddd; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px;",
