@@ -27,7 +27,10 @@ function render() {
 
   const root = createElement(
     "main",
-    { style: "border-radius: 10px; border: 1px solid #ccc; padding: 20px;" },
+    {
+      style:
+        "border-radius: 10px; padding: 20px; margin-top: 50px; background: white; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);",
+    },
     [Quiz()]
   );
 
@@ -58,28 +61,6 @@ function createElement(
   });
 
   return element;
-}
-
-function NavLink({
-  quiz,
-  isActive,
-  id,
-}: {
-  quiz: IQuiz;
-  isActive: boolean;
-  id: number;
-}) {
-  return createElement("a", {
-    href: `#quiz/${id}`,
-    textContent: quiz.title,
-    style: `margin: 0 10px; ${
-      isActive ? "border-bottom: 1px solid #ccc" : undefined
-    }`,
-    onclick: () => {
-      globalState.selectedQuiz = quiz;
-      render();
-    },
-  });
 }
 
 function Quiz() {
@@ -127,7 +108,7 @@ function Quiz() {
     [
       createElement("h2", {
         textContent: title,
-        style: "margin-bottom: 40px; font-size: 32px; font-weight: 700",
+        style: "margin-bottom: 20px; font-size: 32px; font-weight: 700",
       }),
       ...(!globalState.results
         ? questions.map((question, id) => QuizQuestion({ question, id }))
