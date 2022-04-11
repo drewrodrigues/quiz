@@ -22,17 +22,72 @@ const globalState: IGlobalState = {
   results: undefined,
 };
 
-// ! this will have to be done for all. So make the functions stateful
 function reRender() {
-  const root = createElement(
-    "main",
-    {
-      style:
-        "border-radius: 10px; padding: 20px; margin-top: 50px; background: white; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);",
-    },
-    [Quiz()]
-  );
-  render("#quizer", root);
+  render("#quizer", Quizer());
+}
+
+export function Quizer() {
+  // ! add schema validations
+  try {
+    const decodedQuiz: ParsedQuiz = JSON.parse(
+      decodeURIComponent(window.location.search.slice(1))
+    ) as ParsedQuiz;
+
+    const parsedQuiz: IQuiz = {
+      title: decodedQuiz[0] as string,
+      questions: decodedQuiz.slice(1).map((question) => ({
+        question: question[0],
+        answerIndex: 0,
+        answerOptions: (question.slice(1) as string[]).map((question) => ({
+          label: question,
+        })),
+      })),
+    };
+
+    globalState.selectedQuiz = parsedQuiz;
+    return createElement(
+      "main",
+      {
+        style:
+          "border-radius: 10px; padding: 20px; margin-top: 50px; background: white; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);",
+      },
+      [Quiz()]
+    );
+  } catch (e) {
+    return ParsingFailed();
+  }
+
+  function ParsingFailed() {
+    return createElement(
+      "main",
+      {
+        style:
+          "height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column",
+      },
+      [
+        createElement("p", {
+          style: "font-weight: 700; font-size: 24px;",
+          textContent: "Oh Noes",
+        }),
+        createElement("p", {
+          textContent: "Failed to parse quiz",
+          style: "margin-bottom: 20px;",
+        }),
+        createElement("footer", { style: "display: flex" }, [
+          createElement("button", {
+            textContent: "Try an example",
+            style:
+              "background: #ddd; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px; margin-right: 10px",
+          }),
+          createElement("button", {
+            textContent: "Create a Quiz",
+            style:
+              "background: #ddd; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px;",
+          }),
+        ]),
+      ]
+    );
+  }
 }
 
 function Quiz() {
@@ -199,26 +254,3 @@ function QuestionAnswers({
     )
   );
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  // TODO: add schema validations
-
-  const decodedQuiz: ParsedQuiz = JSON.parse(
-    decodeURIComponent(window.location.search.slice(1))
-  ) as ParsedQuiz;
-
-  const parsedQuiz: IQuiz = {
-    title: decodedQuiz[0] as string,
-    questions: decodedQuiz.slice(1).map((question) => ({
-      question: question[0],
-      answerIndex: 0,
-      answerOptions: (question.slice(1) as string[]).map((question) => ({
-        label: question,
-      })),
-    })),
-  };
-
-  globalState.selectedQuiz = parsedQuiz;
-
-  reRender();
-});
