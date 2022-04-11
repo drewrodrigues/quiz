@@ -1,4 +1,3 @@
-import { quizes } from "./questions";
 import {
   IAnswerOption,
   IFormEvent,
@@ -18,7 +17,7 @@ interface IGlobalState {
 }
 
 const globalState: IGlobalState = {
-  selectedQuiz: quizes[0],
+  selectedQuiz: undefined,
   results: undefined,
 };
 
