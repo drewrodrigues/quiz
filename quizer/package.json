@@ -6,7 +6,10 @@
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack -w --color"
+    "start": "webpack -w --color",
+    "_start.comment": "Starts webpack to bundle assets, but doesn't start a server",
+    "serve": "webpack serve",
+    "serve:debug": "open http://localhost:8080/webpack-dev-server"
   },
   "author": "Drew Rodrigues",
   "devDependencies": {
