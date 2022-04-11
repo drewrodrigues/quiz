@@ -1,71 +1,17 @@
-// interface IQuiz {
-//   title: string;
-//   questions: IQuestion[];
-// }
+import { quizes } from "./questions";
+import { IAnswerOption, IFormEvent, IQuestion, IQuiz } from "./types";
 
-// interface IAnswerOption {
-//   label?: string;
-//   image?: string;
-// }
+interface IResults {
+  correctIndices: Set<number>;
+  incorrectIndices: Set<number>;
+}
 
-// interface IQuestion {
-//   question: string;
-//   answerOptions: IAnswerOption[];
-//   answerIndex: number;
+interface IGlobalState {
+  selectedQuiz: IQuiz;
+  results: IResults | undefined;
+}
 
-//   subtitle?: string;
-//   codeExample?: string;
-//   image?: string;
-// }
-
-const marginCollapsingQuiz = {
-  title: "Margin Collapsing",
-  questions: [
-    {
-      question: "When is a block formatting context created?",
-      subtitle: "Some subtitle goes here",
-      codeExample: "",
-      answerOptions: [
-        { label: "overflow: hidden" },
-        { label: "position: absolute" },
-        { label: "display: inline-block" },
-        { label: "float: left" },
-      ],
-      // TODO
-      answerIndex: 0,
-    },
-    {
-      question: "What will be the updated question?",
-      subtitle: "Some subtitle goes here",
-      codeExample: "",
-      answerOptions: [{ label: "true" }, { label: "false" }],
-      answerIndex: 1,
-    },
-    {
-      question: "What will be the updated question?",
-      subtitle: "Some subtitle goes here",
-      codeExample: "",
-      answerOptions: [{ label: "true" }, { label: "false" }],
-      answerIndex: 1,
-    },
-  ],
-};
-
-const anotherQuiz = {
-  title: "Another Quiz",
-  questions: [
-    {
-      question: "What will be the result of the following?",
-      codeExample: "",
-      answerOptions: [{ label: "true" }, { label: "false" }],
-      answerIndex: 2,
-    },
-  ],
-};
-
-const quizes = [marginCollapsingQuiz, anotherQuiz];
-
-const globalState = {
+const globalState: IGlobalState = {
   selectedQuiz: quizes[0],
   results: undefined,
 };
@@ -79,10 +25,14 @@ function render() {
     [Nav(), globalState.selectedQuiz ? Quiz() : undefined]
   );
 
-  quizer.replaceChildren(root);
+  quizer!.replaceChildren(root);
 }
 
-function createElement(elementType, attributes = {}, children = []) {
+function createElement(
+  elementType: string,
+  attributes: object = {},
+  children: any[] = []
+) {
   const element = document.createElement(elementType);
 
   Object.entries(attributes).forEach((keyValue) => {
@@ -90,6 +40,7 @@ function createElement(elementType, attributes = {}, children = []) {
     if (key.startsWith("data")) {
       element.dataset[key.slice(4).toLowerCase()] = value;
     } else {
+      // @ts-ignore
       element[key] = value;
     }
   });
@@ -103,7 +54,15 @@ function createElement(elementType, attributes = {}, children = []) {
   return element;
 }
 
-function NavLink({ quiz, isActive, id }) {
+function NavLink({
+  quiz,
+  isActive,
+  id,
+}: {
+  quiz: IQuiz;
+  isActive: boolean;
+  id: number;
+}) {
   return createElement("a", {
     href: `#quiz/${id}`,
     textContent: quiz.title,
@@ -125,15 +84,15 @@ function Quiz() {
   return createElement(
     "form",
     {
-      onsubmit: (e: Event) => {
+      onsubmit: (e: IFormEvent) => {
         e.preventDefault();
 
         const guessedAnswers = Array.from(e.target.elements).filter(
           (element) => element.checked
         );
-        let results = {
-          correctIndices: new Set(),
-          incorrectIndices: new Set(),
+        let results: IResults = {
+          correctIndices: new Set<number>(),
+          incorrectIndices: new Set<number>(),
         };
 
         const allQuestionsAnswered = guessedAnswers.length === questions.length;
@@ -182,7 +141,7 @@ function Quiz() {
   );
 }
 
-function QuizQuestion({ question, id }) {
+function QuizQuestion({ question, id }: { question: IQuestion; id: number }) {
   return createElement(
     "div",
     {
@@ -208,7 +167,7 @@ function QuizQuestion({ question, id }) {
   );
 }
 
-function QuizResult({ question, id }) {
+function QuizResult({ question, id }: { question: IQuestion; id: number }) {
   const isCorrect =
     globalState.results && globalState.results.correctIndices.has(id);
   const isIncorrect =
@@ -252,7 +211,13 @@ function QuizResult({ question, id }) {
   );
 }
 
-function QuestionAnswers({ answerOptions, id }) {
+function QuestionAnswers({
+  answerOptions,
+  id,
+}: {
+  answerOptions: IAnswerOption[];
+  id: number;
+}) {
   return createElement(
     "ul",
     {},
