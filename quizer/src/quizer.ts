@@ -1,3 +1,4 @@
+import { ParsedQuiz } from "./parsingExample";
 import { quizes } from "./questions";
 import { IAnswerOption, IFormEvent, IQuestion, IQuiz } from "./types";
 
@@ -256,5 +257,22 @@ function Nav() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const decodedQuiz: ParsedQuiz = JSON.parse(
+    decodeURIComponent(window.location.search.slice(1))
+  ) as ParsedQuiz;
+
+  const parsedQuiz: IQuiz = {
+    title: decodedQuiz[0],
+    questions: decodedQuiz.slice(1).map((question) => ({
+      question: question[0],
+      answerIndex: 0,
+      answerOptions: (question.slice(1) as string[]).map((question) => ({
+        label: question,
+      })),
+    })),
+  };
+
+  globalState.selectedQuiz = parsedQuiz;
+
   render();
 });

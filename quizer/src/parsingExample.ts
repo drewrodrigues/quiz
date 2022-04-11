@@ -1,26 +1,6 @@
 // first one should always be the answer
 
-type Title = string;
-
-type Question = string;
-type Subtitle = string;
-type Answer = string;
-type AnswerOption = string;
-
-type ParsedQuiz = [
-  Title,
-  ...Array<
-    [
-      Question,
-      Subtitle,
-      Answer,
-      AnswerOption,
-      AnswerOption,
-      AnswerOption?,
-      AnswerOption?
-    ]
-  >
-];
+export type ParsedQuiz = [string, string[]];
 
 let quiz: ParsedQuiz = [
   "Margin Collapsing",

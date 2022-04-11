@@ -7,8 +7,8 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack -w --color",
+    "serve": "http-server .",
     "_start.comment": "Starts webpack to bundle assets, but doesn't start a server",
-    "serve": "webpack serve",
     "serve:debug": "open http://localhost:8080/webpack-dev-server"
   },
   "author": "Drew Rodrigues",
