@@ -127,12 +127,12 @@ export function Quizer() {
             textContent: "Try an example",
             href: exampleUrl,
             style:
-              "background: #ddd; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px; margin-right: 10px",
+              "background: white; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); margin-right: 10px",
           }),
           createElement("a", {
             textContent: "Create a Quiz",
             style:
-              "background: #ddd; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px;",
+              "background: white; border: none; padding: 10px 14px; border-radius: 10px; font-size: 12px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);",
           }),
         ]),
       ]

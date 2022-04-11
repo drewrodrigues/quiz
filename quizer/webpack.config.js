@@ -21,13 +21,10 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
   },
   mode: "development",
-  devServer: {
-    static: "./dist",
-  },
-  // plugins: [
-  //   new HTMLWebpackPlugin({
-  //     title: "Development",
-  //     template: "src/quizer.html",
-  //   }),
-  // ],
+  plugins: [
+    new HTMLWebpackPlugin({
+      template: "src/index.html",
+      title: "HTMLWebpackPlugin",
+    }),
+  ],
 };
