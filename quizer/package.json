@@ -6,13 +6,12 @@
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack -w --color",
-    "serve": "http-server .",
-    "_start.comment": "Starts webpack to bundle assets, but doesn't start a server",
-    "serve:debug": "open http://localhost:8080/webpack-dev-server"
+    "build:watch": "webpack -w --color",
+    "start": "concurrently 'http-server .' 'build:watch'"
   },
   "author": "Drew Rodrigues",
   "devDependencies": {
+    "concurrently": "^7.1.0",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.3",
     "webpack": "^5.72.0",
