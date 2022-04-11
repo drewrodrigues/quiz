@@ -1,3 +1,4 @@
+import { createElement, render } from "./simpleReact";
 import {
   IAnswerOption,
   IFormEvent,
@@ -21,9 +22,8 @@ const globalState: IGlobalState = {
   results: undefined,
 };
 
-function render() {
-  const quizer = document.querySelector("#quizer");
-
+// ! this will have to be done for all. So make the functions stateful
+function reRender() {
   const root = createElement(
     "main",
     {
@@ -32,34 +32,7 @@ function render() {
     },
     [Quiz()]
   );
-
-  quizer!.replaceChildren(root);
-}
-
-function createElement(
-  elementType: string,
-  attributes: object = {},
-  children: any[] = []
-) {
-  const element = document.createElement(elementType);
-
-  Object.entries(attributes).forEach((keyValue) => {
-    const [key, value] = keyValue;
-    if (key.startsWith("data")) {
-      element.dataset[key.slice(4).toLowerCase()] = value;
-    } else {
-      // @ts-ignore
-      element[key] = value;
-    }
-  });
-
-  children.forEach((child) => {
-    if (child) {
-      element.appendChild(child);
-    }
-  });
-
-  return element;
+  render("#quizer", root);
 }
 
 function Quiz() {
@@ -101,7 +74,7 @@ function Quiz() {
         });
 
         globalState.results = results;
-        render();
+        reRender();
       },
     },
     [
@@ -120,7 +93,7 @@ function Quiz() {
             textContent: "Retry",
             onclick: () => {
               globalState.results = undefined;
-              render();
+              reRender();
             },
           }),
     ]
@@ -247,5 +220,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   globalState.selectedQuiz = parsedQuiz;
 
-  render();
+  reRender();
 });
