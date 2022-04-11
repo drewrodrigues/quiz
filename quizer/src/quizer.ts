@@ -1,6 +1,11 @@
-import { ParsedQuiz } from "./parsingExample";
 import { quizes } from "./questions";
-import { IAnswerOption, IFormEvent, IQuestion, IQuiz } from "./types";
+import {
+  IAnswerOption,
+  IFormEvent,
+  IQuestion,
+  IQuiz,
+  ParsedQuiz,
+} from "./types";
 
 interface IResults {
   correctIndices: Set<number>;
@@ -23,7 +28,7 @@ function render() {
   const root = createElement(
     "main",
     { style: "border-radius: 10px; border: 1px solid #ccc; padding: 20px;" },
-    [Nav(), globalState.selectedQuiz ? Quiz() : undefined]
+    [Quiz()]
   );
 
   quizer!.replaceChildren(root);
@@ -242,27 +247,15 @@ function QuestionAnswers({
   );
 }
 
-function Nav() {
-  return createElement(
-    "nav",
-    { style: "display: flex; margin: 0 -10px; margin-bottom: 25px;" },
-    quizes.map((quiz, index) =>
-      NavLink({
-        quiz,
-        isActive: globalState.selectedQuiz === quiz,
-        id: index,
-      })
-    )
-  );
-}
-
 document.addEventListener("DOMContentLoaded", () => {
+  // TODO: add schema validations
+
   const decodedQuiz: ParsedQuiz = JSON.parse(
     decodeURIComponent(window.location.search.slice(1))
   ) as ParsedQuiz;
 
   const parsedQuiz: IQuiz = {
-    title: decodedQuiz[0],
+    title: decodedQuiz[0] as string,
     questions: decodedQuiz.slice(1).map((question) => ({
       question: question[0],
       answerIndex: 0,
