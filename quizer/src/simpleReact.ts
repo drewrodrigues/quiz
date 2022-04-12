@@ -1,3 +1,24 @@
+// ? think about not running the function body until we first check props and attributes
+// ? because technically, if these things don't change, then we don't have to re-run the body
+// ? of the function. Because the body shouldn't be different unless the function is unpure.
+// ? But, what about 'subscribing' to global state or state that's not passed as props?
+
+// ? 🤔 It seems like although functional components are kinda 'stateless', they definitely have a stateful
+// ? lifecycle with hooks
+
+// ? if we call a function in another function body, can we append ourselves to the current context?
+// ? for instance, in the body of a function call, useSideEffect(() => {}), and behind the scenes,
+// ? when this function is called, it calls this.callbacks.push(callbackFn) or something of the sort
+// ? this seems like it could create the escape hatch
+
+// ? 3 considerations: function body (outside of escape hatches), escape hatches, returned element
+
+// * in React, if a parent re-renders, then all children do unless it's a pure component. So, the body
+// * of the function is called other than the escape hatches. Think about this for my implementation
+
+// checkout my repl: https://replit.com/@rodandrew95/Escape-hatch#index.js
+// it uses the context of the parent object calling it to tap into functions
+
 class SimpleReactElement {
   simpleDomElement: HTMLElement;
   simpleAttributes: Record<any, any>; // * we keep track of this because otherwise we have to loop over all attributes each re-render

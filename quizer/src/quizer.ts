@@ -215,6 +215,10 @@ function QuizQuestion({ question, id }: { question: IQuestion; id: number }) {
 }
 
 function QuizResult({ question, id }: { question: IQuestion; id: number }) {
+  // ! with my current re-render logic (of assuming pure components), this would
+  // ! would not update with global state changes. So, we need a way to register
+  // ! subscriptions other than prop/attribute changes--then we can call these callbacks
+  // ! and see if we have to cause a re-render
   const isCorrect =
     globalState.results && globalState.results.correctIndices.has(id);
   const isIncorrect =
