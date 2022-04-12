@@ -1,11 +1,12 @@
-import { createElement, render } from "./simpleReact";
+import { createElement, SimpleReact } from "./simpleReact";
 import {
   IAnswerOption,
   IFormEvent,
   IQuestion,
   IQuiz,
-  ParsedQuiz,
+  QuizSchema,
 } from "./types";
+import { parseSearchQueryToQuiz, quizToSchema } from "./utils";
 
 interface IResults {
   correctIndices: Set<number>;
@@ -22,29 +23,11 @@ const globalState: IGlobalState = {
   results: undefined,
 };
 
-function reRender() {
-  render("#quizer", Quizer());
-}
-
 export function Quizer() {
   // ! add schema validations
   try {
-    const decodedQuiz: ParsedQuiz = JSON.parse(
-      decodeURIComponent(window.location.search.slice(1))
-    ) as ParsedQuiz;
-
-    const parsedQuiz: IQuiz = {
-      title: decodedQuiz[0] as string,
-      questions: decodedQuiz.slice(1).map((question) => ({
-        question: question[0],
-        answerIndex: 0,
-        answerOptions: (question.slice(1) as string[]).map((question) => ({
-          label: question,
-        })),
-      })),
-    };
-
-    globalState.selectedQuiz = parsedQuiz;
+    console.log(quizToSchema(parseSearchQueryToQuiz()));
+    globalState.selectedQuiz = parseSearchQueryToQuiz();
     return createElement(
       "main",
       {

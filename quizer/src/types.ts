@@ -28,4 +28,4 @@ export interface IFormEvent {
     elements: IHTMLElement[];
   };
 }
-export type ParsedQuiz = (string | string[])[];
+export type QuizSchema = (string | string[])[];
