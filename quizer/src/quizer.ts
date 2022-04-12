@@ -179,7 +179,7 @@ function Quiz() {
         });
 
         globalState.results = results;
-        reRender();
+        SimpleReact.reRender();
       },
     },
     [
@@ -198,7 +198,7 @@ function Quiz() {
             textContent: "Retry",
             onclick: () => {
               globalState.results = undefined;
-              reRender();
+              SimpleReact.reRender();
             },
           }),
     ]
