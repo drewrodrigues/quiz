@@ -1,6 +1,6 @@
 import { createElement, SimpleReact } from "./simpleReact";
-import { IAnswerOption, IFormEvent, IQuestion, IQuiz } from "./types";
-import { parseSearchQueryToQuiz, quizToSchema } from "./utils";
+import { IAnswerOption, IFormEvent, IQuestion, IQuiz } from "../types";
+import { parseSearchQueryToQuiz, quizToSchema } from "../utils";
 
 interface IResults {
   correctIndices: Set<number>;

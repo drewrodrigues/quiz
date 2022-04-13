@@ -1,6 +1,6 @@
 import { createElement, SimpleReact } from "./simpleReact";
-import { IQuestion, IQuiz } from "./types";
-import { quizToSchema } from "./utils";
+import { IQuestion, IQuiz } from "../types";
+import { quizToSchema } from "../utils";
 
 interface IState {
   quiz: IQuiz;
