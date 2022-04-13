@@ -33,21 +33,15 @@ export function QuizBuilder() {
 
   function onDeleteAnswer(questionIndex: number, answerIndex: number) {
     const updatedQuiz: IQuiz = { ...quiz };
-    let updatedAnswers = updatedQuiz.questions[questionIndex].answerOptions;
-    updatedAnswers = [
-      ...updatedAnswers.slice(0, answerIndex),
-      ...updatedAnswers.slice(answerIndex + 1),
-    ];
-    updatedQuiz.questions[questionIndex].answerOptions = updatedAnswers;
+    updatedQuiz.questions[questionIndex].answerOptions = updatedQuiz.questions[
+      questionIndex
+    ].answerOptions.splice(answerIndex, 1);
     setQuiz(updatedQuiz);
   }
 
   function onDeleteQuestionClick(e: React.MouseEvent, index: number) {
     e.preventDefault();
-    const newQuestions = [
-      ...quiz.questions.slice(0, index),
-      ...quiz.questions.slice(index + 1),
-    ];
+    const newQuestions = quiz.questions.splice(index, 1);
     setQuiz((q) => ({ ...quiz, questions: newQuestions }));
   }
 
