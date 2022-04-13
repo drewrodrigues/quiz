@@ -1,5 +1,9 @@
 export interface IQuiz {
   title: string;
+
+  subtitle?: string;
+  author?: string; // Drew Rodrigues | thesimpledev.dev
+  backLink?: string; // back to blog that linked over or something
   questions: IQuestion[];
 }
 export interface IAnswerOption {
@@ -13,8 +17,8 @@ export interface IQuestion {
   answerIndex: number;
 
   subtitle?: string;
-  codeExample?: string;
-  image?: string;
+  codeExample?: string; // link to a codepen or something?
+  image?: string; // only support it through a shortened uri
 }
 
 export interface IHTMLElement extends Element {

@@ -1,11 +1,5 @@
 import { createElement, SimpleReact } from "./simpleReact";
-import {
-  IAnswerOption,
-  IFormEvent,
-  IQuestion,
-  IQuiz,
-  QuizSchema,
-} from "./types";
+import { IAnswerOption, IFormEvent, IQuestion, IQuiz } from "./types";
 import { parseSearchQueryToQuiz, quizToSchema } from "./utils";
 
 interface IResults {
