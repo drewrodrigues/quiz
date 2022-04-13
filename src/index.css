@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-text-color: rgb(5, 5, 5);
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  --bg-color: #EFF2F5;
+  --gray-medium: #E3E6EA;
+  --border-radius: 10px;
+  --spacing-full: 20px;
+  --spacing-half: 10px;
+}

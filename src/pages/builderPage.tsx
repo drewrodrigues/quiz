@@ -1,99 +1,124 @@
-import { createElement, SimpleReact } from "./simpleReact";
-import { IQuestion, IQuiz } from "../types";
-import { quizToSchema } from "../utils";
+import React, { useState } from "react";
+import { AnswerSet } from "../components/builder/answerSet";
+import { LabelAndInput } from "../components/labelAndInput";
+import { IAnswerOption, IQuestion, IQuiz } from "../types";
 
-interface IState {
-  quiz: IQuiz;
-}
-
-const state: IState = {
-  quiz: { title: "", subtitle: "", questions: [] },
+const BLANK_QUESTION: IQuestion = {
+  question: "",
+  answerIndex: -1,
+  answerOptions: [],
 };
+const BLANK_QUIZ = { title: "", subtitle: "", questions: [] };
+const BLANK_ANSWER: IAnswerOption = { label: "" };
 
 export function QuizBuilder() {
-  return createElement("main", {}, [
-    createElement(
-      "form",
-      {
-        style:
-          "border-radius: 10px; padding: 20px; margin-top: 50px; background: white; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column;",
-      },
-      [
-        createElement(
-          "header",
-          {
-            style:
-              "display: flex; justify-content: space-between; align-items: center",
-          },
-          [
-            createElement("h1", {
-              textContent: "Builder",
-              style: "font-size: 32px; font-weight: 700;",
-            }),
-            createElement("a", {
-              textContent: "View",
-              style:
-                "border: 1px solid #aaa; padding: 5px 10px; border-radius: 10px; color: #aaa; font-size: 12px; cursor: pointer",
-            }),
-          ]
-        ),
-        LabelAndInput({
-          label: "Title",
-          value: state.quiz.title,
-          onchange: (val) => {
-            state.quiz.title = val;
-            SimpleReact.reRender();
-          },
-        }),
-        LabelAndInput({
-          label: "Subtitle",
-          value: state.quiz.subtitle,
-          onchange: (val) => {
-            state.quiz.subtitle = val;
-            SimpleReact.reRender();
-          },
-        }),
-      ]
-    ),
-    SchemaViewer(),
-  ]);
-}
+  const [quiz, setQuiz] = useState<IQuiz>(BLANK_QUIZ);
 
-function LabelAndInput({
-  label,
-  onchange,
-  value,
-}: {
-  label: string;
-  onchange: (value: string) => void;
-  value: string;
-}) {
-  return createElement(
-    "label",
-    {
-      textContent: label,
-      style:
-        "display: flex; flex-direction: column; margin-top: 20px; font-size: 14px;",
-    },
-    [
-      createElement("input", {
-        style:
-          "border: none; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-top: 10px",
-        oninput: (e: any) => {
-          onchange(e.target.value);
-        },
-        value,
-      }),
-    ]
+  function onNewQuestionClick(e: React.MouseEvent) {
+    e.preventDefault();
+    setQuiz((q) => ({ ...quiz, questions: [...q.questions, BLANK_QUESTION] }));
+  }
+
+  function onNewAnswer(e: React.MouseEvent, questionIndex: number) {
+    e.preventDefault();
+    const updatedQuestion = { ...quiz.questions[questionIndex] };
+    updatedQuestion.answerOptions = [
+      ...updatedQuestion.answerOptions,
+      BLANK_ANSWER,
+    ];
+    const updatedQuiz: IQuiz = { ...quiz };
+    updatedQuiz.questions[questionIndex] = updatedQuestion;
+    setQuiz(updatedQuiz);
+  }
+
+  function onDeleteAnswer(questionIndex: number, answerIndex: number) {
+    const updatedQuiz: IQuiz = { ...quiz };
+    let updatedAnswers = updatedQuiz.questions[questionIndex].answerOptions;
+    updatedAnswers = [
+      ...updatedAnswers.slice(0, answerIndex),
+      ...updatedAnswers.slice(answerIndex + 1),
+    ];
+    updatedQuiz.questions[questionIndex].answerOptions = updatedAnswers;
+    setQuiz(updatedQuiz);
+  }
+
+  function onDeleteQuestionClick(e: React.MouseEvent, index: number) {
+    e.preventDefault();
+    const newQuestions = [
+      ...quiz.questions.slice(0, index),
+      ...quiz.questions.slice(index + 1),
+    ];
+    setQuiz((q) => ({ ...quiz, questions: newQuestions }));
+  }
+
+  return (
+    <form className="">
+      <header className="flex justify-between items-center px-[40px] pt-[40px]">
+        <h1 className="font-bold text-[32px]">Builder</h1>
+        <button className="border cursor-pointer p-[5px] rounded-half">
+          View
+        </button>
+      </header>
+
+      <hr className="my-[40px] border" />
+
+      <section className="px-[40px]">
+        <LabelAndInput
+          label="Title"
+          value={quiz.title}
+          onChange={(val) => setQuiz((q) => ({ ...q, title: val }))}
+        />
+        <LabelAndInput
+          label="Subtitle"
+          value={quiz.subtitle}
+          onChange={(val) => setQuiz((q) => ({ ...q, subtitle: val }))}
+        />
+      </section>
+
+      {quiz.questions.map((question, questionIndex) => (
+        <>
+          <hr className="my-[40px] border" />
+
+          <section className="px-[40px]">
+            <button
+              className="rounded-half p-[5px] bg-red-200 text-red-500 text-[12px] mb-[20px]"
+              onClick={(e) => onDeleteQuestionClick(e, questionIndex)}
+            >
+              Delete Question
+            </button>
+
+            <LabelAndInput
+              label="Question"
+              value={quiz.subtitle}
+              onChange={(val) => setQuiz((q) => ({ ...q, subtitle: val }))}
+            />
+
+            <AnswerSet
+              answers={question.answerOptions}
+              onUpdate={() => null}
+              onDeleteAnswer={(answerIndex) =>
+                onDeleteAnswer(questionIndex, answerIndex)
+              }
+            />
+
+            <button
+              className="rounded-half p-[5px] bg-green-200 text-green-500 text-[12px]"
+              onClick={(e) => onNewAnswer(e, questionIndex)}
+            >
+              Add Answer
+            </button>
+          </section>
+        </>
+      ))}
+
+      <footer className="border-t mt-[40px]">
+        <button
+          className="rounded-half p-[5px] bg-green-200 text-green-500 text-[12px] m-[10px]"
+          onClick={onNewQuestionClick}
+        >
+          Add Question
+        </button>
+      </footer>
+    </form>
   );
-}
-
-function SchemaViewer() {
-  const schema = quizToSchema(state.quiz);
-  console.log(schema);
-
-  return createElement("footer", {
-    // textContent: schema, // ! fix this, causing issue with re-render
-    style: "margin-top: 20px;",
-  });
 }

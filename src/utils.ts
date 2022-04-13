@@ -22,14 +22,12 @@ export function schemaToQuiz(quizSchema: QuizSchema): IQuiz {
 }
 
 export function quizToSchema(quiz: IQuiz): QuizSchema {
-  return [
-    quiz.title,
-    quiz.subtitle,
-    ...quiz.questions.map((question) => [
-      question.question,
-      ...question.answerOptions.map((option) => option.label),
-    ]),
-  ];
+  const questionsAndAnswers = quiz.questions.map((question) => [
+    question.question,
+    ...question.answerOptions.map((option) => option.label),
+  ]);
+
+  return [quiz.title, quiz.subtitle || "", ...questionsAndAnswers];
 }
 
 export function encodeQuizToSearchQuery(quiz: IQuiz) {}

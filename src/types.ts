@@ -1,14 +1,17 @@
 export interface IQuiz {
   title: string;
+  questions: IQuestion[];
 
   subtitle?: string;
   author?: string; // Drew Rodrigues | thesimpledev.dev
   backLink?: string; // back to blog that linked over or something
-  questions: IQuestion[];
 }
+
 export interface IAnswerOption {
-  label?: string;
-  image?: string;
+  label: string;
+
+  // TODO: for later
+  // imageUrl?: string;
 }
 
 export interface IQuestion {
