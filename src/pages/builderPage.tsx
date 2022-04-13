@@ -111,14 +111,12 @@ export function QuizBuilder() {
         </>
       ))}
 
-      <footer className="border-t mt-[40px]">
-        <button
-          className="rounded-half p-[5px] bg-green-200 text-green-500 text-[12px] m-[10px]"
-          onClick={onNewQuestionClick}
-        >
-          Add Question
-        </button>
-      </footer>
+      <button
+        className="p-[10px] border-t mt-[40px] flex justify-center bg-gray-200 text-gray-500 text-[12px] rounded-bl rounded-br w-full"
+        onClick={onNewQuestionClick}
+      >
+        Add Question
+      </button>
     </form>
   );
 }
