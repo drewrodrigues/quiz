@@ -41,7 +41,8 @@ export function QuizBuilder() {
 
   function onDeleteQuestionClick(e: React.MouseEvent, index: number) {
     e.preventDefault();
-    const newQuestions = quiz.questions.splice(index, 1);
+    const newQuestions = [...quiz.questions];
+    newQuestions.splice(index, 1);
     setQuiz((q) => ({ ...quiz, questions: newQuestions }));
   }
 
