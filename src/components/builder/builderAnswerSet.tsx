@@ -37,18 +37,23 @@ export function BuilderAnswerSet({
   return (
     <>
       {answerOptions.map((answer, answerIndex) => (
-        <section key={answerIndex}>
+        <section key={answerIndex} className="flex items-center">
           <LabelAndInput
             label="Answer"
             value={answer.label}
             onChange={(value) => onUpdate(answerIndex, { label: value })}
+            onRenderInput={(Input) => (
+              <div className="flex w-full">
+                <Input className="w-full" />
+                <button
+                  className="rounded-half px-[15px] bg-gray-200 text-gray-500 text-[10px] ml-[10px] flex-grow-0"
+                  onClick={(e) => onDeleteAnswer(e, answerIndex)}
+                >
+                  X
+                </button>
+              </div>
+            )}
           />
-          <button
-            className="rounded-half p-[5px] bg-red-200 text-red-500 text-[12px]"
-            onClick={(e) => onDeleteAnswer(e, answerIndex)}
-          >
-            Delete Answer
-          </button>
         </section>
       ))}
 

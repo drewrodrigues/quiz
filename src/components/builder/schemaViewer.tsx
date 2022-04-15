@@ -17,7 +17,7 @@ export function SchemaViewer({ quiz }: ISchemaViewerProps) {
   }, [quiz]);
 
   return (
-    <section className="border mt-[20px] rounded-half p-[20px]">
+    <section className="border mt-[20px] rounded-half p-[20px] mb-[20px]">
       {/* @ts-ignore */}
       <pre ref={preRef}></pre>
     </section>

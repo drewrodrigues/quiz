@@ -66,7 +66,7 @@ export function QuizBuilder() {
 
         {quiz.questions.map((question, questionIndex) => (
           <section key={questionIndex}>
-            <hr className="my-[40px] border" />
+            <hr className="border" />
 
             <BuilderQuestion
               question={question}

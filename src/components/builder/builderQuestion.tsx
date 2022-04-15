@@ -16,9 +16,9 @@ function BuilderQuestion({
   children,
 }: BuilderQuestionProps) {
   return (
-    <section className="px-[40px]">
+    <section className="p-[40px] relative">
       <button
-        className="rounded-half p-[5px] bg-red-200 text-red-500 text-[12px] mb-[20px]"
+        className="rounded-half p-[5px] border text-[10px] mb-[20px] absolute right-[10px] top-[10px] text-gray-400"
         onClick={(e) => {
           e.preventDefault();
           onDelete();
