@@ -45,13 +45,13 @@ export function QuizBuilder() {
     <>
       <header className="flex justify-between items-center mb-[20px]">
         <h1 className="font-bold text-[32px]">Builder</h1>
-        <button className="border cursor-pointer p-[5px] rounded-half">
+        <button className="cursor-pointer px-[12px] py-[5px] rounded-half bg-gray-100 text-gray-500 text-[14px]">
           View
         </button>
       </header>
 
       <form className="rounded bg-gray-50 shadow">
-        <section className="px-[40px] pt-[40px]">
+        <section className="p-[40px]">
           <LabelAndInput
             label="Title"
             value={quiz.title}
@@ -85,7 +85,7 @@ export function QuizBuilder() {
           </section>
         ))}
         <button
-          className="p-[10px] border-t mt-[40px] flex justify-center bg-gray-200 text-gray-500 text-[12px] rounded-bl rounded-br w-full"
+          className="p-[10px] border-t flex justify-center bg-gray-200 text-gray-500 text-[12px] rounded-bl rounded-br w-full"
           onClick={onNewQuestionClick}
         >
           Add Question
