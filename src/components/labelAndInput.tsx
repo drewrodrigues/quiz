@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 
 interface PartialProps {
@@ -42,6 +43,6 @@ export const Input = ({
       onChange(e.target.value);
     }}
     value={value}
-    className={`rounded-half p-[10px] border ${className}`}
+    className={clsx("rounded-half p-[10px] border", className)}
   />
 );

@@ -29,8 +29,8 @@ function BuilderQuestion({
 
       <LabelAndInput
         label="Question"
-        value={question.question}
-        onChange={(value) => onUpdate({ ...question, question: value })}
+        value={question.questionTitle}
+        onChange={(value) => onUpdate({ ...question, questionTitle: value })}
       />
 
       <LabelAndInput

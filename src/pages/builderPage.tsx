@@ -1,19 +1,33 @@
-import React, { useState } from "react";
-import { BuilderAnswerSet } from "../components/builder/builderAnswerSet";
-import { BuilderQuestion } from "../components/builder/builderQuestion";
-import { SchemaViewer } from "../components/builder/schemaViewer";
+import React, { useEffect, useState } from "react";
+import { BuilderAnswerSet, UrlViewer } from "../components/builder";
+import { BuilderQuestion } from "../components/builder";
+import { SchemaViewer } from "../components/builder";
 import { LabelAndInput } from "../components/labelAndInput";
 import { IAnswerOption, IQuestion, IQuiz } from "../types";
+import { encodeQuizToSearchQuery } from "../utils";
 
 const BLANK_QUESTION: IQuestion = {
-  question: "",
+  questionTitle: "",
   answerIndex: -1,
   answerOptions: [],
 };
 const BLANK_QUIZ: IQuiz = { title: "", subtitle: "", questions: [] };
 
 export function QuizBuilder() {
-  const [quiz, setQuiz] = useState<IQuiz>(BLANK_QUIZ);
+  const [quiz, setQuiz] = useState<IQuiz>(() => {
+    try {
+      const parsedCachedQuiz = JSON.parse(
+        localStorage.getItem("STORED_QUIZ")!
+      ) as unknown as IQuiz;
+      if (!parsedCachedQuiz) return BLANK_QUIZ;
+      return parsedCachedQuiz;
+    } catch (e) {
+      return BLANK_QUIZ;
+    }
+  });
+
+  const searchQuery = encodeQuizToSearchQuery(quiz);
+  const fullLinkUrl = `http://localhost:3000/viewer?${searchQuery}`;
 
   function onNewQuestionClick(e: React.MouseEvent) {
     e.preventDefault();
@@ -41,13 +55,22 @@ export function QuizBuilder() {
     setQuiz({ ...quiz, questions: updatedQuestions });
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      localStorage.setItem("STORED_QUIZ", JSON.stringify(quiz));
+    }, 0);
+  }, [quiz]);
+
   return (
     <>
       <header className="flex justify-between items-center mb-[20px]">
         <h1 className="font-bold text-[32px]">Builder</h1>
-        <button className="cursor-pointer px-[12px] py-[5px] rounded-half bg-gray-100 text-gray-500 text-[14px]">
+        <a
+          className="cursor-pointer px-[12px] py-[5px] rounded-half bg-gray-100 text-gray-500 text-[14px]"
+          href={fullLinkUrl}
+        >
           View
-        </button>
+        </a>
       </header>
 
       <form className="rounded bg-gray-50 shadow">
@@ -93,6 +116,8 @@ export function QuizBuilder() {
       </form>
 
       <SchemaViewer quiz={quiz} />
+
+      <UrlViewer quiz={quiz} />
     </>
   );
 }

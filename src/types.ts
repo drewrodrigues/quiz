@@ -15,7 +15,7 @@ export interface IAnswerOption {
 }
 
 export interface IQuestion {
-  question: string;
+  questionTitle: string;
   answerOptions: IAnswerOption[];
   answerIndex: number;
 

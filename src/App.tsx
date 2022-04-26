@@ -2,10 +2,44 @@ import clsx from "clsx";
 import React from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import { QuizBuilder } from "./pages/builderPage";
+import { Viewer } from "./pages/viewer";
 
 function App() {
   return (
     <BrowserRouter>
+      <Routes>
+        <Route
+          path="/viewer"
+          element={
+            <div className="max-w-screen-sm m-auto mt-[40px]">
+              <Viewer />
+            </div>
+          }
+        />
+        <Route
+          path="/builder"
+          element={
+            <AppWrapperWithNavbar>
+              <QuizBuilder />
+            </AppWrapperWithNavbar>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <AppWrapperWithNavbar>
+              <p>Home page</p>
+            </AppWrapperWithNavbar>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+function AppWrapperWithNavbar({ children }: { children: React.ReactElement }) {
+  return (
+    <>
       <header className="bg-blue-200 p-[20px] mb-[20px]">
         <div className="flex justify-between items-center max-w-screen-sm m-auto">
           <main>
@@ -34,14 +68,8 @@ function App() {
           </aside>
         </div>
       </header>
-
-      <div className="max-w-screen-sm m-auto">
-        <Routes>
-          <Route path="/builder" element={<QuizBuilder />} />
-          <Route path="/" element={<p>Landing page</p>} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+      <div className="max-w-screen-sm m-auto">{children}</div>
+    </>
   );
 }
 
