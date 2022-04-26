@@ -1,32 +1,47 @@
 import React from "react";
 
-export function LabelAndInput({
-  label,
-  onChange,
-  value,
-  onRenderInput,
-}: {
+interface PartialProps {
   label: string;
-  onChange: (value: string) => void;
-  value: string | undefined;
-  onRenderInput?: (
-    element: (props: { className?: string }) => React.ReactElement
-  ) => React.ReactElement;
-}) {
-  const Input = ({ className = "" }): React.ReactElement => (
-    <input
-      onChange={(e: any) => {
-        onChange(e.target.value);
-      }}
-      value={value}
-      className={`rounded-half p-[10px] border ${className}`}
-    />
-  );
+}
 
+type DefaultProps = PartialProps &
+  Omit<InputProps, "className"> & { onRenderInput?: undefined };
+
+type OverwrittenProps = PartialProps &
+  Omit<InputProps, "className"> & {
+    onRenderInput: (inputProps: InputProps) => React.ReactElement;
+  };
+
+export function LabelAndInput(props: DefaultProps | OverwrittenProps) {
   return (
     <label className="flex flex-col w-full mb-[10px]">
-      <span className="text-[14px]">{label}</span>
-      {onRenderInput ? onRenderInput(Input) : <Input />}
+      <span className="text-[14px]">{props.label}</span>
+
+      {props.onRenderInput ? (
+        props.onRenderInput(props)
+      ) : (
+        <Input onChange={props.onChange} value={props.value} />
+      )}
     </label>
   );
 }
+
+interface InputProps {
+  className?: string;
+  onChange: (value: string) => void;
+  value: string | undefined;
+}
+
+export const Input = ({
+  className = "",
+  onChange,
+  value,
+}: InputProps): React.ReactElement => (
+  <input
+    onChange={(e: any) => {
+      onChange(e.target.value);
+    }}
+    value={value}
+    className={`rounded-half p-[10px] border ${className}`}
+  />
+);

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { IAnswerOption } from "../../types";
-import { LabelAndInput } from "../labelAndInput";
+import { Input, LabelAndInput } from "../labelAndInput";
 
 const BLANK_ANSWER: IAnswerOption = { label: "" };
 
@@ -40,11 +40,11 @@ export function BuilderAnswerSet({
         <section key={answerIndex} className="flex items-center">
           <LabelAndInput
             label="Answer"
-            value={answer.label}
             onChange={(value) => onUpdate(answerIndex, { label: value })}
-            onRenderInput={(Input) => (
+            value={answer.label}
+            onRenderInput={(inputProps) => (
               <div className="flex w-full">
-                <Input className="w-full" />
+                <Input className="w-full" {...inputProps} />
                 <button
                   className="rounded-half px-[15px] bg-gray-200 text-gray-500 text-[10px] ml-[10px] flex-grow-0"
                   onClick={(e) => onDeleteAnswer(e, answerIndex)}
