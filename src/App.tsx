@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import { QuizBuilder } from "./pages/builderPage";
-import { Viewer } from "./pages/viewer";
+import { Viewer } from "./pages/viewerPage";
 
 function App() {
   return (
