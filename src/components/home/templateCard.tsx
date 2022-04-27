@@ -9,10 +9,10 @@ export function TemplateCard({ quiz }: Props) {
 
   return (
     <a
-      className="w-[300px] shadow m-[10px] border rounded-half p-[10px] flex-shrink-0"
+      className="w-[300px] h-[150px] shadow m-[10px] border rounded-half p-[10px] flex flex-shrink-0 justify-center items-center"
       href={url}
     >
-      {quiz.title}
+      <p>{quiz.title}</p>
     </a>
   );
 }
