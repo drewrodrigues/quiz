@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import { QuizBuilder } from "./pages/builderPage";
+import { HomePage } from "./pages/homePage";
 import { Viewer } from "./pages/viewerPage";
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
           path="/"
           element={
             <AppWrapperWithNavbar>
-              <p>Home page</p>
+              <HomePage />
             </AppWrapperWithNavbar>
           }
         />

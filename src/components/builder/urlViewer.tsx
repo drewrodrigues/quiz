@@ -1,20 +1,19 @@
 import React from "react";
 import { IQuiz } from "../../types";
-import { encodeQuizToSearchQuery } from "../../utils";
+import { quizToViewerUrl } from "../../utils/encoding";
 
 interface UrlBuilderProps {
   quiz: IQuiz;
 }
 
 export function UrlViewer({ quiz }: UrlBuilderProps) {
-  const searchQuery = encodeQuizToSearchQuery(quiz);
-  const fullLinkUrl = `http://localhost:3000?${searchQuery}`;
+  const viewerUrl = quizToViewerUrl(quiz);
 
   return (
     <section>
-      <a href={fullLinkUrl}>{fullLinkUrl}</a>
+      <a href={viewerUrl}>{viewerUrl}</a>
 
-      <p>URL length: {fullLinkUrl.length}</p>
+      <p>URL length: {viewerUrl.length}</p>
     </section>
   );
 }

@@ -1,17 +1,9 @@
-import { IQuiz, QuizSchema } from "./types";
-
 // we don't directly encode the quiz from JSON into a URI.
 // instead we use a 'schema' so there are less characters
 // in the full url. The 'schema' is positional, so we
 // don't need to have keys (thus saving characters).
 
-export function parseSearchQueryToQuiz(): IQuiz {
-  const decodedSchema: QuizSchema = JSON.parse(
-    decodeURI(window.location.search.slice(1))
-  ) as QuizSchema;
-
-  return schemaToQuiz(decodedSchema);
-}
+import { QuizSchema, IQuiz } from "../types";
 
 export function schemaToQuiz(quizSchema: QuizSchema): IQuiz {
   return {
@@ -35,9 +27,3 @@ export function quizToSchema(quiz: IQuiz): QuizSchema {
 
   return [quiz.title, quiz.subtitle || "", ...questionsAndAnswers];
 }
-
-export function encodeQuizToSearchQuery(quiz: IQuiz) {
-  return encodeURI(JSON.stringify(quizToSchema(quiz)));
-}
-
-export function encodeQuizToEncodedSchema(quiz: IQuiz) {}

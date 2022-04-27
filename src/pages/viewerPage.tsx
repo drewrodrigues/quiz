@@ -1,5 +1,5 @@
 import React from "react";
-import { parseSearchQueryToQuiz } from "../utils";
+import { parseSearchQueryToQuiz } from "../utils/parsing";
 
 export function Viewer() {
   try {

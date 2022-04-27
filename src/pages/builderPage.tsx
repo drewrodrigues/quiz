@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { BuilderAnswerSet, UrlViewer } from "../components/builder";
-import { BuilderQuestion } from "../components/builder";
-import { SchemaViewer } from "../components/builder";
+import {
+  BuilderAnswerSet,
+  BuilderQuestion,
+  SchemaViewer,
+  UrlViewer,
+} from "../components/builder";
 import { LabelAndInput } from "../components/labelAndInput";
 import { IAnswerOption, IQuestion, IQuiz } from "../types";
-import { encodeQuizToSearchQuery } from "../utils";
+import { quizToViewerUrl } from "../utils/encoding";
 
 const BLANK_QUESTION: IQuestion = {
   questionTitle: "",
@@ -26,8 +29,7 @@ export function QuizBuilder() {
     }
   });
 
-  const searchQuery = encodeQuizToSearchQuery(quiz);
-  const fullLinkUrl = `http://localhost:3000/viewer?${searchQuery}`;
+  const viewerUrl = quizToViewerUrl(quiz);
 
   function onNewQuestionClick(e: React.MouseEvent) {
     e.preventDefault();
@@ -67,7 +69,7 @@ export function QuizBuilder() {
         <h1 className="font-bold text-[32px]">Builder</h1>
         <a
           className="cursor-pointer px-[12px] py-[5px] rounded-half bg-gray-100 text-gray-500 text-[14px]"
-          href={fullLinkUrl}
+          href={viewerUrl}
         >
           View
         </a>
