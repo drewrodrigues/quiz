@@ -30,6 +30,7 @@ export function QuizBuilder() {
   });
 
   const viewerUrl = quizToViewerUrl(quiz);
+  const builderViewerUrl = `${viewerUrl}&fromBuilder=true`;
 
   function onNewQuestionClick(e: React.MouseEvent) {
     e.preventDefault();
@@ -69,7 +70,7 @@ export function QuizBuilder() {
         <h1 className="font-bold text-[32px]">Builder</h1>
         <a
           className="cursor-pointer px-[12px] py-[5px] rounded-half bg-gray-100 text-gray-500 text-[14px]"
-          href={viewerUrl}
+          href={builderViewerUrl}
         >
           View
         </a>

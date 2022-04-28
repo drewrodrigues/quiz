@@ -3,47 +3,66 @@ import { parseSearchQueryToQuiz } from "../utils/parsing";
 
 export function ViewerPage() {
   try {
-    const parsedQuiz = parseSearchQueryToQuiz();
+    const { quiz: parsedQuiz, fromBuilder } = parseSearchQueryToQuiz();
 
     return (
-      <main className="max-w-screen-sm m-auto mt-[40px]">
-        <header className="mb-[20px]">
-          <h2 className="text-[42px] font-bold">{parsedQuiz.title}</h2>
-          <h3 className="text-[20px]">{parsedQuiz.subtitle}</h3>
-        </header>
+      <>
+        {fromBuilder && (
+          <header className="flex justify-between p-[10px] bg-gray-100 items-center text-gray-400 border shadow-inner">
+            <div className="flex items-center">
+              <h1 className="font-bold mr-[5px]">
+                <a href="/">Quizer</a>
+              </h1>
 
-        {parsedQuiz.questions.map((question, i) => (
-          <section className="p-[40px] rounded bg-gray-50 shadow mb-[20px]">
-            <h3 className="mb-[10px] font-bold text-[20px]">
-              {question.questionTitle}
-            </h3>
+              <h3 className="text-[14px]">Previewing Quiz</h3>
+            </div>
 
-            {question.answerOptions.map((answerOption) => (
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  className="mr-[10px]"
-                  name={`${question.questionTitle}-${i}`}
-                />
-                {answerOption.label}
-              </label>
-            ))}
-          </section>
-        ))}
+            <aside>
+              <a
+                href="/builder"
+                className="text-[14px] border p-[5px] rounded-half bg-white"
+              >
+                Back to Builder
+              </a>
+            </aside>
+          </header>
+        )}
 
-        <button className="bg-green-400 w-full p-[10px] rounded-half text-green-800 shadow shadow-green-600">
-          Finish
-        </button>
-
-        <footer>
-          <p className="text-center mt-[20px]">
-            Made using{" "}
-            <a href="/" className="underline">
-              Quizer
-            </a>
-          </p>
-        </footer>
-      </main>
+        <main className="max-w-screen-sm m-auto mt-[40px]">
+          <header className="mb-[20px]">
+            <h2 className="text-[42px] font-bold">{parsedQuiz.title}</h2>
+            <h3 className="text-[20px]">{parsedQuiz.subtitle}</h3>
+          </header>
+          {parsedQuiz.questions.map((question, i) => (
+            <section className="p-[40px] rounded bg-gray-50 shadow mb-[20px]">
+              <h3 className="mb-[10px] font-bold text-[20px]">
+                {question.questionTitle}
+              </h3>
+              {question.answerOptions.map((answerOption) => (
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    className="mr-[10px]"
+                    name={`${question.questionTitle}-${i}`}
+                  />
+                  {answerOption.label}
+                </label>
+              ))}
+            </section>
+          ))}
+          <button className="bg-green-400 w-full p-[10px] rounded-half text-green-800 shadow shadow-green-600">
+            Finish
+          </button>
+          <footer>
+            <p className="text-center mt-[20px]">
+              Made using{" "}
+              <a href="/" className="underline">
+                Quizer
+              </a>
+            </p>
+          </footer>
+        </main>
+      </>
     );
   } catch (e) {
     return (

@@ -7,6 +7,6 @@ function encodeQuizToSearchQuery(quiz: IQuiz) {
 
 export function quizToViewerUrl(quiz: IQuiz) {
   const searchQuery = encodeQuizToSearchQuery(quiz);
-  const fullLinkUrl = `http://localhost:3000/viewer?${searchQuery}`;
+  const fullLinkUrl = `http://localhost:3000/viewer?quiz=${searchQuery}`;
   return fullLinkUrl;
 }
