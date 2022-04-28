@@ -3,6 +3,7 @@ import React from "react";
 
 interface PartialProps {
   label: string;
+  labelIcon?: React.ReactElement;
 }
 
 type DefaultProps = PartialProps &
@@ -15,8 +16,13 @@ type OverwrittenProps = PartialProps &
 
 export function LabelAndInput(props: DefaultProps | OverwrittenProps) {
   return (
-    <label className="flex flex-col w-full mb-[10px]">
-      <span className="text-[14px]">{props.label}</span>
+    <label className="flex flex-col w-full mb-[20px]">
+      <span className="text-[14px] mb-[10px]">
+        <>
+          {props.labelIcon}
+          {props.label}
+        </>
+      </span>
 
       {props.onRenderInput ? (
         props.onRenderInput(props)

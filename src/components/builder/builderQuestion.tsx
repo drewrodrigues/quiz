@@ -16,7 +16,7 @@ function BuilderQuestion({
   children,
 }: BuilderQuestionProps) {
   return (
-    <section className="p-[40px] relative">
+    <section className="p-[40px] relative rounded bg-gray-50 shadow mb-[20px]">
       <button
         className="rounded-half p-[5px] border text-[10px] mb-[20px] absolute right-[10px] top-[10px] text-gray-400"
         onClick={(e) => {
@@ -38,6 +38,8 @@ function BuilderQuestion({
         value={question.subtitle}
         onChange={(value) => onUpdate({ ...question, subtitle: value })}
       />
+
+      <hr className="my-[40px] " />
 
       {children}
     </section>

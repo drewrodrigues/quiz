@@ -11,7 +11,7 @@ import { quizToViewerUrl } from "../utils/encoding";
 
 const BLANK_QUESTION: IQuestion = {
   questionTitle: "",
-  answerIndex: -1,
+  answerIndex: -1, // TODO: make UI say that an answer index needs to be selected
   answerOptions: [],
 };
 const BLANK_QUIZ: IQuiz = { title: "", subtitle: "", questions: [] };
@@ -46,6 +46,7 @@ export function QuizBuilder() {
   function onDeleteQuestionClick(index: number) {
     const newQuestions = [...quiz.questions];
     newQuestions.splice(index, 1);
+
     setQuiz({ ...quiz, questions: newQuestions });
   }
 
@@ -55,6 +56,14 @@ export function QuizBuilder() {
   ) {
     const updatedQuestions = [...quiz.questions];
     updatedQuestions[questionIndex].answerOptions = updatedAnswers;
+    setQuiz({ ...quiz, questions: updatedQuestions });
+  }
+
+  function onMarkCorrect(questionIndex: number, answerIndex: number) {
+    const updatedQuestions = [...quiz.questions];
+
+    updatedQuestions[questionIndex].answerIndex = answerIndex;
+
     setQuiz({ ...quiz, questions: updatedQuestions });
   }
 
@@ -76,8 +85,9 @@ export function QuizBuilder() {
         </a>
       </header>
 
-      <form className="rounded bg-gray-50 shadow">
-        <section className="p-[40px]">
+      <form>
+        <h2 className="mb-[20px]">Details</h2>
+        <section className="p-[40px] rounded bg-gray-50 shadow mb-[20px]">
           <LabelAndInput
             label="Title"
             value={quiz.title}
@@ -90,26 +100,31 @@ export function QuizBuilder() {
           />
         </section>
 
-        {quiz.questions.map((question, questionIndex) => (
-          <section key={questionIndex}>
-            <hr className="border" />
-
-            <BuilderQuestion
-              question={question}
-              onDelete={() => onDeleteQuestionClick(questionIndex)}
-              onUpdate={(updatedQuestion) =>
-                onUpdateQuestion(questionIndex, updatedQuestion)
-              }
-            >
-              <BuilderAnswerSet
-                answerOptions={question.answerOptions}
-                onUpdate={(updatedAnswers) =>
-                  onUpdateAnswers(questionIndex, updatedAnswers)
+        <h2 className="mb-[20px]">Questions</h2>
+        <section className="">
+          {quiz.questions.map((question, questionIndex) => (
+            <div key={questionIndex}>
+              <BuilderQuestion
+                question={question}
+                onDelete={() => onDeleteQuestionClick(questionIndex)}
+                onUpdate={(updatedQuestion) =>
+                  onUpdateQuestion(questionIndex, updatedQuestion)
                 }
-              />
-            </BuilderQuestion>
-          </section>
-        ))}
+              >
+                <BuilderAnswerSet
+                  answerOptions={question.answerOptions}
+                  correctAnswerIndex={question.answerIndex}
+                  onMarkCorrect={(answerIndex) =>
+                    onMarkCorrect(questionIndex, answerIndex)
+                  }
+                  onUpdate={(updatedAnswers) =>
+                    onUpdateAnswers(questionIndex, updatedAnswers)
+                  }
+                />
+              </BuilderQuestion>
+            </div>
+          ))}
+        </section>
         <button
           className="p-[10px] border-t flex justify-center bg-gray-200 text-gray-500 text-[12px] rounded-bl rounded-br w-full"
           onClick={onNewQuestionClick}
