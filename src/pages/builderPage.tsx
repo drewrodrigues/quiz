@@ -85,6 +85,8 @@ export function QuizBuilder() {
         </a>
       </header>
 
+      <UrlViewer quiz={quiz} />
+
       <form>
         <h2 className="mb-[20px]">Details</h2>
         <section className="p-[40px] rounded bg-gray-50 shadow mb-[20px]">
@@ -134,8 +136,6 @@ export function QuizBuilder() {
       </form>
 
       <SchemaViewer quiz={quiz} />
-
-      <UrlViewer quiz={quiz} />
     </>
   );
 }

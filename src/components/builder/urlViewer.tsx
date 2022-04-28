@@ -9,11 +9,30 @@ interface UrlBuilderProps {
 export function UrlViewer({ quiz }: UrlBuilderProps) {
   const viewerUrl = quizToViewerUrl(quiz);
 
-  return (
-    <section>
-      <a href={viewerUrl}>{viewerUrl}</a>
+  function onCopy() {
+    navigator.clipboard.writeText(viewerUrl);
+  }
 
-      <p>URL length: {viewerUrl.length}</p>
+  return (
+    <section className="mb-[20px]">
+      <p className="mb-[10px]">URL length: {viewerUrl.length} / 2000</p>
+
+      <div className="shadow py-[5px] px-[10px] rounded bg-green-100 text-green-600 w-full flex items-center">
+        <a
+          href={viewerUrl}
+          target="_blank"
+          className="whitespace-nowrap text-ellipsis overflow-hidden"
+          rel="noreferrer"
+        >
+          {viewerUrl}
+        </a>
+        <button
+          className="flex-shrink-0 bg-green-300 text-white px-[10px] rounded-half ml-[5px]"
+          onClick={onCopy}
+        >
+          Copy
+        </button>
+      </div>
     </section>
   );
 }
