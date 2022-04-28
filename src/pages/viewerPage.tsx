@@ -1,4 +1,5 @@
 import React from "react";
+import { Navbar } from "../components/layout/navbar";
 import { parseSearchQueryToQuiz } from "../utils/parsing";
 
 export function ViewerPage() {
@@ -7,26 +8,7 @@ export function ViewerPage() {
 
     return (
       <>
-        {fromBuilder && (
-          <header className="flex justify-between p-[10px] bg-gray-100 items-center text-gray-400 border shadow-inner">
-            <div className="flex items-center">
-              <h1 className="font-bold mr-[5px]">
-                <a href="/">Quizer</a>
-              </h1>
-
-              <h3 className="text-[14px]">Previewing Quiz</h3>
-            </div>
-
-            <aside>
-              <a
-                href="/builder"
-                className="text-[14px] border p-[5px] rounded-half bg-white"
-              >
-                Back to Builder
-              </a>
-            </aside>
-          </header>
-        )}
+        {fromBuilder && <Navbar subtitle="Previewing Quiz" rightButton={{label: 'Back to Builder', href: '/builder'}} />}
 
         <main className="max-w-screen-sm m-auto mt-[40px]">
           <header className="mb-[20px]">
