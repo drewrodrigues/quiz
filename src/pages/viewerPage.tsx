@@ -1,11 +1,12 @@
 import React from "react";
 import { parseSearchQueryToQuiz } from "../utils/parsing";
 
-export function Viewer() {
+export function ViewerPage() {
   try {
     const parsedQuiz = parseSearchQueryToQuiz();
+
     return (
-      <main>
+      <main className="max-w-screen-sm m-auto mt-[40px]">
         <header className="mb-[20px]">
           <h2 className="text-[42px] font-bold">{parsedQuiz.title}</h2>
           <h3 className="text-[20px]">{parsedQuiz.subtitle}</h3>
@@ -37,7 +38,7 @@ export function Viewer() {
         <footer>
           <p className="text-center mt-[20px]">
             Made using{" "}
-            <a href="" className="underline">
+            <a href="/" className="underline">
               Quizer
             </a>
           </p>
@@ -45,6 +46,31 @@ export function Viewer() {
       </main>
     );
   } catch (e) {
-    return <p>Failed to show quiz</p>;
+    return (
+      <main className="flex justify-center items-center flex-col h-[100vh]">
+        <h1 className="mb-[20px] font-bold">Quizer</h1>
+
+        <div className="flex flex-col rounded p-[50px] shadow border">
+          <h2 className="text-[32px] font-bold mb-[40px]">
+            Failed to show page
+          </h2>
+
+          <div className="flex justify-center">
+            <a
+              href="/"
+              className="px-[20px] py-[13px] bg-gray-100 text-gray-500 rounded text-[14px] mr-[5px]"
+            >
+              Go Home
+            </a>
+            <a
+              href="/builder"
+              className="px-[20px] py-[13px] bg-blue-400 text-white rounded"
+            >
+              Build a Quiz
+            </a>
+          </div>
+        </div>
+      </main>
+    );
   }
 }

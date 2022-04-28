@@ -3,20 +3,13 @@ import React from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import { QuizBuilder } from "./pages/builderPage";
 import { HomePage } from "./pages/homePage";
-import { Viewer } from "./pages/viewerPage";
+import { ViewerPage } from "./pages/viewerPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/viewer"
-          element={
-            <div className="max-w-screen-sm m-auto mt-[40px]">
-              <Viewer />
-            </div>
-          }
-        />
+        <Route path="/viewer" element={<ViewerPage />} />
         <Route
           path="/builder"
           element={
