@@ -7,8 +7,6 @@ interface ISchemaViewerProps {
 }
 
 export function SchemaViewer({ quiz }: ISchemaViewerProps) {
-  // const schema = quizToSchema(state.quiz);
-  // console.log(schema);
   const preRef = useRef();
 
   useEffect(() => {
@@ -17,7 +15,7 @@ export function SchemaViewer({ quiz }: ISchemaViewerProps) {
   }, [quiz]);
 
   return (
-    <section className="border mt-[20px] rounded-half p-[20px] mb-[20px]">
+    <section className="border mt-[20px] rounded-half p-[20px] mb-[20px] text-[12px]">
       {/* @ts-ignore */}
       <pre ref={preRef}></pre>
     </section>

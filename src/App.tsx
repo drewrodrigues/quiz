@@ -1,6 +1,5 @@
-import clsx from "clsx";
 import React from "react";
-import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navbar } from "./components/layout/navbar";
 import { QuizBuilder } from "./pages/builderPage";
 import { HomePage } from "./pages/homePage";

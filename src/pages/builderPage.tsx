@@ -128,7 +128,7 @@ export function QuizBuilder() {
           ))}
         </section>
         <button
-          className="p-[10px] border-t flex justify-center bg-gray-200 text-gray-500 text-[12px] rounded-bl rounded-br w-full"
+          className="p-[10px] flex justify-center bg-gray-100 text-gray-500 text-[12px] rounded w-full shadow"
           onClick={onNewQuestionClick}
         >
           Add Question

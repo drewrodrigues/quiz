@@ -1,6 +1,6 @@
 import React from "react";
 import { IQuestion } from "../../types";
-import { LabelAndInput } from "../labelAndInput";
+import { Input, LabelAndInput } from "../labelAndInput";
 
 interface BuilderQuestionProps {
   question: IQuestion;
@@ -31,13 +31,20 @@ function BuilderQuestion({
         label="Question"
         value={question.questionTitle}
         onChange={(value) => onUpdate({ ...question, questionTitle: value })}
+        onRenderInput={(inputProps) => (
+          <Input
+            {...inputProps}
+            className="text-[20px] font-bold p-[5px 10px]"
+          />
+        )}
       />
 
-      <LabelAndInput
+      {/* TODO: maybe add this back? */}
+      {/* <LabelAndInput
         label="Subtitle"
         value={question.subtitle}
         onChange={(value) => onUpdate({ ...question, subtitle: value })}
-      />
+      /> */}
 
       <hr className="my-[40px] " />
 

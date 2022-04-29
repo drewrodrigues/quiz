@@ -43,7 +43,7 @@ export function Navbar({ subtitle, rightButton, rightLinks = [] }: Props) {
           {rightButton && (
             <a
               href={rightButton.href}
-              className="text-[14px] border p-[5px] rounded-half bg-white"
+              className="text-[14px] border p-[5px] rounded-half bg-white ml-[10px]"
             >
               {rightButton.label}
             </a>
