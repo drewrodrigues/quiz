@@ -1,4 +1,5 @@
 import React from "react";
+import { ViewError } from "../components/error/error";
 import { Navbar } from "../components/layout/navbar";
 import { parseSearchQueryToQuiz } from "../utils/parsing";
 
@@ -8,7 +9,12 @@ export function ViewerPage() {
 
     return (
       <>
-        {fromBuilder && <Navbar subtitle="Previewing Quiz" rightButton={{label: 'Back to Builder', href: '/builder'}} />}
+        {fromBuilder && (
+          <Navbar
+            subtitle="Previewing Quiz"
+            rightButton={{ label: "Back to Builder", href: "/builder" }}
+          />
+        )}
 
         <main className="max-w-screen-sm m-auto mt-[40px]">
           <header className="mb-[20px]">
@@ -47,31 +53,6 @@ export function ViewerPage() {
       </>
     );
   } catch (e) {
-    return (
-      <main className="flex justify-center items-center flex-col h-[100vh]">
-        <h1 className="mb-[20px] font-bold">Quizer</h1>
-
-        <div className="flex flex-col rounded p-[50px] shadow border">
-          <h2 className="text-[32px] font-bold mb-[40px]">
-            Failed to show page
-          </h2>
-
-          <div className="flex justify-center">
-            <a
-              href="/"
-              className="px-[20px] py-[13px] bg-gray-100 text-gray-500 rounded text-[14px] mr-[5px]"
-            >
-              Go Home
-            </a>
-            <a
-              href="/builder"
-              className="px-[20px] py-[13px] bg-blue-400 text-white rounded"
-            >
-              Build a Quiz
-            </a>
-          </div>
-        </div>
-      </main>
-    );
+    return <ViewError />;
   }
 }
