@@ -1,9 +1,16 @@
-import React from "react";
-import { ViewError } from "../components/error/error";
+import React, { useState } from "react";
+import { Error } from "../components/error/error";
 import { Navbar } from "../components/layout/navbar";
 import { parseSearchQueryToQuiz } from "../utils/parsing";
+import { ResultsFromQuiz, resultsFromQuiz } from "../utils/resultsFromQuiz";
 
 export function ViewerPage() {
+  const [quizResults, setQuizResults] = useState<ResultsFromQuiz>();
+
+  function onFinishClick() {
+    setQuizResults(resultsFromQuiz());
+  }
+
   try {
     const { quiz: parsedQuiz, fromBuilder } = parseSearchQueryToQuiz();
 
@@ -38,7 +45,10 @@ export function ViewerPage() {
               ))}
             </section>
           ))}
-          <button className="bg-green-400 w-full p-[10px] rounded-half text-green-800 shadow shadow-green-600">
+          <button
+            className="bg-green-400 w-full p-[10px] rounded-half text-green-800 shadow shadow-green-600"
+            onClick={onFinishClick}
+          >
             Finish
           </button>
           <footer>
@@ -53,6 +63,6 @@ export function ViewerPage() {
       </>
     );
   } catch (e) {
-    return <ViewError />;
+    return <Error />;
   }
 }
