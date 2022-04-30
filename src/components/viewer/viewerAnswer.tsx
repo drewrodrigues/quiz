@@ -8,6 +8,8 @@ type Props = {
   answerStatus: IAnswerStatus;
   groupName: string;
   label: string;
+
+  onClick?: () => void;
 };
 
 const baseClass =
@@ -18,10 +20,11 @@ export function ViewerAnswer({
   answerStatus,
   groupName,
   label,
+  onClick,
 }: Props): React.ReactElement {
   const variants: Record<IAnswerStatus, React.ReactElement> = {
     unanswered: (
-      <label className={clsx(baseClass, "")}>
+      <label className={clsx(baseClass, "bg-white")} onClick={onClick}>
         <input
           type="radio"
           className={clsx(baseIconClass)}

@@ -4,10 +4,16 @@ import { ViewerAnswer } from "./viewerAnswer";
 
 type Props = {
   quiz: IQuiz;
+
+  onClickAnswer?: (questionIndex: number, answerIndex: number) => void;
   answers?: number[];
 };
 
-export function ViewerQuestions({ answers, quiz }: Props): React.ReactElement {
+export function ViewerQuestions({
+  answers,
+  onClickAnswer,
+  quiz,
+}: Props): React.ReactElement {
   if (answers && answers.length !== quiz.questions.length) {
     throw new Error("Not all questions answered");
   }
@@ -33,6 +39,7 @@ export function ViewerQuestions({ answers, quiz }: Props): React.ReactElement {
                   label={answerOption.label}
                   groupName={question.questionTitle}
                   answerStatus={answerStatus}
+                  onClick={() => onClickAnswer?.(questionIndex, answerIndex)}
                 />
               );
             })}

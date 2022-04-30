@@ -10,9 +10,9 @@ export function schemaToQuiz(quizSchema: QuizSchema): IQuiz {
     title: quizSchema[0] as string,
     subtitle: quizSchema[1] as string,
     questions: quizSchema.slice(2).map((question) => ({
-      questionTitle: question[0],
-      answerIndex: 0,
-      answerOptions: (question.slice(1) as string[]).map((question) => ({
+      questionTitle: question[0] as string,
+      answerIndex: parseInt(question[1]),
+      answerOptions: (question.slice(2) as string[]).map((question) => ({
         label: question,
       })),
     })),
@@ -22,6 +22,7 @@ export function schemaToQuiz(quizSchema: QuizSchema): IQuiz {
 export function quizToSchema(quiz: IQuiz): QuizSchema {
   const questionsAndAnswers = quiz.questions.map((question) => [
     question.questionTitle,
+    question.answerIndex.toString(),
     ...question.answerOptions.map((option) => option.label),
   ]);
 
