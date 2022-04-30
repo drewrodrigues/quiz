@@ -1,18 +1,46 @@
 import React, { useState } from "react";
 import { Error } from "../components/error/error";
 import { Navbar } from "../components/layout/navbar";
+import { ViewerQuestions } from "../components/viewer/viewerQuestions";
+import { IQuiz } from "../types";
 import { parseSearchQueryToQuiz } from "../utils/parsing";
 import { ResultsFromQuiz, resultsFromQuiz } from "../utils/resultsFromQuiz";
 
 export function ViewerPage() {
+  const [initialized] = useState(():
+    | {
+        error: string;
+        fromBuilder: undefined;
+        parsedQuiz: undefined;
+      }
+    | { error: undefined; parsedQuiz: IQuiz; fromBuilder: boolean } => {
+    try {
+      const { quiz: parsedQuiz, fromBuilder } = parseSearchQueryToQuiz();
+
+      return {
+        error: undefined,
+        parsedQuiz,
+        fromBuilder,
+      };
+    } catch (e) {
+      console.error("Failed to load quiz");
+      return {
+        error: "Failed to load quiz",
+        parsedQuiz: undefined,
+        fromBuilder: undefined,
+      };
+    }
+  });
+
   const [quizResults, setQuizResults] = useState<ResultsFromQuiz>();
+  const [answers, setAnswers] = useState<number[]>([]);
 
   function onFinishClick() {
-    setQuizResults(resultsFromQuiz());
+    setQuizResults(resultsFromQuiz(initialized.parsedQuiz!, answers));
   }
 
-  try {
-    const { quiz: parsedQuiz, fromBuilder } = parseSearchQueryToQuiz();
+  if (initialized.error === undefined) {
+    const { fromBuilder, parsedQuiz } = initialized;
 
     return (
       <>
@@ -28,23 +56,9 @@ export function ViewerPage() {
             <h2 className="text-[42px] font-bold">{parsedQuiz.title}</h2>
             <h3 className="text-[20px]">{parsedQuiz.subtitle}</h3>
           </header>
-          {parsedQuiz.questions.map((question, i) => (
-            <section className="p-[40px] rounded bg-gray-50 shadow mb-[20px]">
-              <h3 className="mb-[10px] font-bold text-[20px]">
-                {question.questionTitle}
-              </h3>
-              {question.answerOptions.map((answerOption) => (
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    className="mr-[10px]"
-                    name={`${question.questionTitle}-${i}`}
-                  />
-                  {answerOption.label}
-                </label>
-              ))}
-            </section>
-          ))}
+
+          <ViewerQuestions quiz={parsedQuiz} answers={[]} />
+
           <button
             className="bg-green-400 w-full p-[10px] rounded-half text-green-800 shadow shadow-green-600"
             onClick={onFinishClick}
@@ -62,7 +76,7 @@ export function ViewerPage() {
         </main>
       </>
     );
-  } catch (e) {
+  } else {
     return <Error />;
   }
 }

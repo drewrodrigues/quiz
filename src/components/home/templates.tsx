@@ -1,12 +1,12 @@
 import React from "react";
 import {
-  multipleChoiceExample,
-  mixedExample,
-  trueFalseExample,
+  multipleChoiceTemplate,
+  mixedTemplate,
+  trueFalseTemplate,
 } from "../../utils/templates";
 import { TemplateCard } from "./templateCard";
 
-const examples = [trueFalseExample, multipleChoiceExample, mixedExample];
+const examples = [trueFalseTemplate, multipleChoiceTemplate, mixedTemplate];
 
 export function Templates(): React.ReactElement {
   return (

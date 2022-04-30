@@ -1,6 +1,6 @@
 import { IQuiz } from "../types";
 
-export const trueFalseExample: IQuiz = {
+export const trueFalseTemplate: IQuiz = {
   title: "True/False Example",
   questions: [
     {
@@ -21,7 +21,7 @@ export const trueFalseExample: IQuiz = {
 // TODO: add support for images -- they have to be minified
 // * (support this on the client?--drag & drop & auto minify and upload to a service?)
 // * stack a bunch of integrations? Code snippets from another service?
-export const multipleChoiceExample: IQuiz = {
+export const multipleChoiceTemplate: IQuiz = {
   title: "Multiple Choice",
   questions: [
     {
@@ -37,7 +37,7 @@ export const multipleChoiceExample: IQuiz = {
   ],
 };
 
-export const mixedExample: IQuiz = {
+export const mixedTemplate: IQuiz = {
   title: "Mixed Example",
   questions: [], // TODO: build this up from the other quiz examples
 };

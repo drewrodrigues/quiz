@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { QuizResults } from "../components/viewer/quizResults";
+import { QuizResults } from "../components/viewer/viewerResults";
 import { resultsFromQuiz } from "../utils/resultsFromQuiz";
-import { trueFalseExample } from "../utils/templates";
+import { trueFalseTemplate } from "../utils/templates";
 
 export default {
   title: "QuizResults",
@@ -16,12 +16,12 @@ const Template: ComponentStory<typeof QuizResults> = (args) => (
 );
 
 export const middle = Template.bind({});
-middle.args = resultsFromQuiz(trueFalseExample, [1, 1]);
+middle.args = resultsFromQuiz(trueFalseTemplate, [1, 1]);
 
 export const allCorrect = Template.bind({});
 allCorrect.args = {
-  ...resultsFromQuiz(trueFalseExample, [1, 0]),
+  ...resultsFromQuiz(trueFalseTemplate, [1, 0]),
 };
 
 export const allWrong = Template.bind({});
-allWrong.args = { ...resultsFromQuiz(trueFalseExample, [0, 1]) };
+allWrong.args = { ...resultsFromQuiz(trueFalseTemplate, [0, 1]) };
