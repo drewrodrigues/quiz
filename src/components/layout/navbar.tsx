@@ -18,7 +18,7 @@ export function Navbar({ subtitle, rightButton, rightLinks = [] }: Props) {
       <div className="max-w-screen-sm flex justify-between m-auto">
         <div className="flex items-center">
           <h1 className="font-bold mr-[5px]">
-            <a href="/">Quizer</a>
+            <a href="/">Quiz</a>
           </h1>
 
           {subtitle && <h3 className="text-[14px]">{subtitle}</h3>}

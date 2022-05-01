@@ -86,7 +86,7 @@ export function ViewerPage() {
             <p className="text-center mt-[20px]">
               Made using{" "}
               <a href="/" className="underline">
-                Quizer
+                Quiz
               </a>
             </p>
           </footer>

@@ -12,7 +12,7 @@ export function Error({
   return (
     <>
       <h1 className="mb-[20px] font-bold absolute w-full text-center mt-[20px]">
-        <a href="/">Quizer</a>
+        <a href="/">Quiz</a>
       </h1>
       <main className="flex justify-center items-center flex-col h-[100vh]">
         <div className="h-[300px] w-[300px] bg-blue-200 rounded-[50%] absolute -z-10 -translate-y-4 opacity-20" />
