@@ -53,7 +53,7 @@ export function ViewerPage() {
       <>
         {fromBuilder && (
           <Navbar
-            subtitle="Previewing Quiz"
+            subtitle="Preview"
             rightButton={{ label: "Back to Builder", href: "/builder" }}
           />
         )}
